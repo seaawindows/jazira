@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Jazira Cantik >.<</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', cursive, sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #ffe6f0 0%, #ffd1e0 50%, #ffb6d0 100%);
+            cursor: pointer;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Efek glitter background */
+        .glitter-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 182, 193, 0.2) 2px, transparent 3px),
+                radial-gradient(circle at 90% 80%, rgba(255, 105, 180, 0.2) 2px, transparent 3px),
+                radial-gradient(circle at 50% 50%, rgba(255, 20, 147, 0.1) 2px, transparent 3px);
+            background-size: 100px 100px, 150px 150px, 200px 200px;
+        }
+
+        /* Container untuk semua halaman */
+        .pages-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Halaman */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 15px;
+            overflow: hidden;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s;
+            opacity: 0;
+            z-index: 1;
+            transform: translateX(100%);
+        }
+
+        .page.active {
+            opacity: 1;
+            z-index: 2;
+            transform: translateX(0);
+        }
+
+        /* Animasi background gelembung yang lebih rame */
+        .bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out;
+            filter: blur(1px);
+        }
+
+        .bubble.small {
+            width: 20px;
+            height: 20px;
+        }
+
+        .bubble.medium {
+            width: 40px;
+            height: 40px;
+        }
+
+        .bubble.large {
+            width: 60px;
+            height: 60px;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+                opacity: 0.7;
+            }
+            50% { 
+                transform: translateY(-80px) rotate(180deg) scale(1.1); 
+                opacity: 1;
+            }
+        }
+
+        /* Heartbeat animation */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Bingkai foto yang lebih rame dan menarik */
+        .photo-frame {
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ff6b9d, #ff4081);
+            padding: 15px;
+            border-radius: 25px;
+            position: relative;
+            box-shadow: 
+                0 10px 20px rgba(255, 20, 147, 0.3),
+                0 0 0 10px #ffebf3,
+                0 0 0 15px #ff69b4,
+                0 0 0 20px #ffebf3,
+                0 0 0 25px #ff1493;
+            margin-bottom: 20px;
+            max-width: 320px;
+            width: 90%;
+            animation: heartbeat 2s infinite;
+        }
+
+        /* Motif batik cinta yang lebih detail */
+        .batik-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 10c0-5 5-10 10-10 0 15-10 20-10 30 0-10-10-15-10-30 5 0 10 5 10 10z' fill='%23ff1493' fill-opacity='0.1'/%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 15c0-8 8-15 15-15 0 22-15 30-15 45 0-15-15-23-15-45 7 0 15 7 15 15z' fill='%23ff69b4' fill-opacity='0.1'/%3E%3C/svg%3E");
+            background-size: 40px 40px, 60px 60px;
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .photo-container {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
+            position: relative;
+            width: 100%;
+        }
+
+        .photo {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+            border-radius: 10px;
+        }
+
+        .photo:hover {
+            transform: scale(1.03);
+        }
+
+        /* Pesan dengan desain lebih lucu */
+        .message-box {
+            background: white;
+            padding: 18px 25px;
+            border-radius: 20px;
+            box-shadow: 
+                0 8px 15px rgba(0, 0, 0, 0.1),
+                0 0 0 5px #ffebf3,
+                0 0 0 10px #ff69b4;
+            text-align: center;
+            margin-top: 15px;
+            max-width: 320px;
+            width: 90%;
+            position: relative;
+            border: 3px dotted #ff1493;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .message-box h1 {
+            color: #ff1493;
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0px #ffb6c1;
+            position: relative;
+            display: inline-block;
+        }
+
+        .message-box h1:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff69b4, transparent);
+        }
+
+        .message-box p {
+            color: #d81b60;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        .hearts {
+            margin-top: 10px;
+            font-size: 1.3rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Halaman kedua - Kata-kata lucu */
+        .funny-text-box {
+            background: white;
+            padding: 20px;
+            border-radius: 25px;
+            margin: 15px 0;
+            max-width: 320px;
+            width: 90%;
+            box-shadow: 
+                0 10px 20px rgba(255, 20, 147, 0.2),
+                0 0 0 5px #ffebf3,
+                0 0 0 10px #ff69b4;
+            border: 5px double #ff1493;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .funny-text-box:before {
+            content: '💖 💕 💞 💓 💗';
+            position: absolute;
+            top: 5px;
+            left: 0;
+            width: 100%;
+            font-size: 1rem;
+            opacity: 0.3;
+            text-align: center;
+            animation: slide 10s infinite linear;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .funny-text-box h2 {
+            color: #ff1493;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            text-align: center;
+            text-shadow: 2px 2px 0 #ffb6c1;
+        }
+
+        .funny-text-box p {
+            color: #d81b60;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Container karakter Kuromi dan Nailong */
+        .characters-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            max-width: 350px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .character {
+            position: relative;
+            animation: bounce 3s infinite alternate;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+        }
+
+        .character img {
+            width: 70px;
+            height: auto;
+            transition: transform 0.3s;
+        }
+
+        .character:hover img {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .kuromi { animation-delay: 0s; }
+        .nailong { animation-delay: 0.5s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Halaman ketiga - Penutup */
+        .kuromi-gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+            max-width: 350px;
+        }
+
+        .kuromi-gallery img {
+            width: 80px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 
+                0 5px 10px rgba(0, 0, 0, 0.2),
+                0 0 0 3px white,
+                0 0 0 6px #ff69b4;
+            transition: all 0.3s;
+        }
+
+        .kuromi-gallery img:hover {
+            transform: scale(1.15) rotate(5deg);
+            filter: brightness(1.1);
+        }
+
+        .closing-box {
+            background: linear-gradient(45deg, #ff9ec0, #ff6ba9);
+            padding: 20px 25px;
+            border-radius: 25px;
+            box-shadow: 
+                0 10px 25px rgba(255, 20, 147, 0.4),
+                0 0 0 5px white,
+                0 0 0 10px #ff69b4;
+            max-width: 320px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 5px solid white;
+        }
+
+        .closing-box:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 7.5c0-3.75 3.75-7.5 7.5-7.5 0 11.25-7.5 15-7.5 22.5 0-7.5-7.5-11.25-7.5-22.5 3.75 0 7.5 3.75 7.5 7.5z' fill='%23ffffff' fill-opacity='0.2'/%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        .closing-box h2 {
+            color: white;
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            text-shadow: 2px 2px 0 #ff1493;
+            position: relative;
+            z-index: 1;
+        }
+
+        .closing-box p {
+            color: white;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            position: relative;
+            z-index: 1;
+            text-shadow: 1px 1px 0 #ff1493;
+            margin-bottom: 8px;
+        }
+
+        /* WhatsApp link dengan desain lebih lucu */
+        .wa-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+            box-shadow: 
+                0 8px 15px rgba(37, 211, 102, 0.3),
+                0 0 0 3px white,
+                0 0 0 6px #25D366;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .wa-link:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+            z-index: -1;
+        }
+
+        .wa-link:hover:before {
+            left: 100%;
+        }
+
+        .wa-link:hover {
+            transform: scale(1.08) rotate(2deg);
+            box-shadow: 
+                0 12px 20px rgba(37, 211, 102, 0.5),
+                0 0 0 3px white,
+                0 0 0 6px #25D366;
+        }
+
+        .wa-icon {
+            font-size: 1.4rem;
+        }
+
+        /* Kontrol musik */
+        .music-control {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 
+                0 5px 10px rgba(255, 20, 147, 0.4),
+                0 0 0 3px white;
+            transition: all 0.3s;
+            animation: rotate 10s infinite linear;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .music-control:hover {
+            transform: scale(1.1) rotate(15deg);
+            animation-play-state: paused;
+        }
+
+        /* Petunjuk interaksi */
+        .hint {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #ff1493;
+            box-shadow: 
+                0 5px 10px rgba(0, 0, 0, 0.1),
+                0 0 0 3px #ffebf3;
+            z-index: 1000;
+            max-width: 180px;
+            border: 2px dashed #ff69b4;
+            transition: opacity 0.5s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hint-icon {
+            font-size: 1.1rem;
+            animation: wiggle 1s infinite alternate;
+        }
+
+        @keyframes wiggle {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(5px); }
+        }
+
+        /* Indikator halaman */
+        .page-indicator {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ff69b4;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 20, 147, 0.3);
+            transition: all 0.3s;
+        }
+
+        .indicator-dot.active {
+            background-color: #ff1493;
+            transform: scale(1.3);
+            box-shadow: 0 0 5px #ff1493;
+        }
+
+        /* Efek konfeti yang lebih rame */
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background-color: #ff69b4;
+            opacity: 0;
+            animation: confetti-fall 3s linear forwards;
+            z-index: 999;
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        @keyframes confetti-fall {
+            0% { 
+                transform: translateY(-100px) rotate(0deg) translateX(0); 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100vh) rotate(720deg) translateX(30px); 
+                opacity: 0;
+            }
+        }
+
+        /* Floating hearts */
+        .floating-heart {
+            position: fixed;
+            font-size: 1.5rem;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+            animation: float-heart 5s linear forwards;
+        }
+
+        @keyframes float-heart {
+            0% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { opacity: 1; }
+            90% { opacity: 0.8; }
+            100% { 
+                transform: translateY(-100px) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        /* Responsif */
+        @media (min-width: 768px) {
+            .photo-frame, .message-box, .funny-text-box, .closing-box {
+                max-width: 400px;
+            }
+            
+            .photo-frame {
+                padding: 20px;
+            }
+            
+            .message-box h1 {
+                font-size: 1.8rem;
+            }
+            
+            .funny-text-box h2 {
+                font-size: 1.7rem;
+            }
+            
+            .character img {
+                width: 90px;
+            }
+            
+            .kuromi-gallery img {
+                width: 100px;
+            }
+            
+            .closing-box h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hint {
+                max-width: 220px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .photo-frame, .message-box, .funny-text-box, .closing-box {
+                max-width: 95%;
+            }
+            
+            .character img {
+                width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background glitter -->
+    <div class="glitter-bg"></div>
+    
+    <!-- Container untuk semua halaman -->
+    <div class="pages-container" id="pagesContainer">
+        <!-- Indikator halaman -->
+        <div class="page-indicator" id="pageIndicator">
+            <div class="indicator-dot active" data-page="1"></div>
+            <div class="indicator-dot" data-page="2"></div>
+            <div class="indicator-dot" data-page="3"></div>
+        </div>
+        
+        <!-- Halaman 1: Foto Jazira -->
+        <div class="page active" id="page1">
+            <div class="bubbles" id="bubbles1"></div>
+            
+            <div class="photo-frame">
+                <div class="batik-pattern"></div>
+                <div class="photo-container">
+                    <!-- Ganti dengan jazira1.png -->
+                    <img src="jazira1.png" alt="Jazira Cantik" class="photo" id="jaziraPhoto" style=" transform: scale(1.3);" style=" width: 400px;">
+                </div>
+            </div>
+            
+            <div class="message-box">
+                <h1>Hii Jaziraaa! 💖</h1>
+                <p>Kamu tuh selalu bikin hariku jadi lebih cerah! >.<</p>
+                <div class="hearts">
+                    ❤️ 💖 💕 💞 💓 💗
+                </div>
+            </div>
+        </div>
+        
+        <!-- Halaman 2: Kata-kata lucu -->
+        <div class="page" id="page2">
+            <div class="bubbles" id="bubbles2"></div>
+            
+            <div class="funny-text-box">
+                <h2>Makasihhhh Yaaa Jaziraaa! 😊</h2>
+                <p>Udah nemenin aku lewatin semua hari-hari yang kadang lucu, kadang sedih, kadang bikin senyum-senyum sendiri!</p>
+                <p>Tahun baru nih, semoga kita terus bareng ya! Aku pengen lebih sering liat senyumanmu yang manis itu! 🥰</p>
+                <p>Kamu tuh kayak bintang yang selalu nerangin malammu, eh maksudnya hariku! 😄</p>
+            </div>
+            
+            <div class="characters-container">
+                <div class="character kuromi">
+                    <!-- Ganti dengan kuromi1-removebg-preview.png -->
+                    <img src="https://cdn-icons-png.flaticon.com/512/4152/4152906.png" alt="Kuromi">
+                </div>
+                <div class="character nailong">
+                    <!-- Ganti dengan nailong1.png -->
+                    <img src="https://cdn-icons-png.flaticon.com/512/1076/1076984.png" alt="Nailong">
+                </div>
+                <div class="character kuromi">
+                    <!-- Ganti dengan kuromi2-removebg-preview.png -->
+                    <img src="https://cdn-icons-png.flaticon.com/512/4152/4152909.png" alt="Kuromi">
+                </div>
+                <div class="character nailong">
+                    <!-- Ganti dengan nailong2.png -->
+                    <img src="https://cdn-icons-png.flaticon.com/512/1076/1076980.png" alt="Nailong">
+                </div>
+            </div>
+            
+            <div style="color: #ff1493; font-size: 1.1rem; margin-top: 10px; text-align: center; max-width: 320px;">
+                <p>Kuromi & Nailong juga bilang kamu yang paling cantik! Mereka iri sama aku! yahahahahahahahahahahahahahaha 😉</p>
+            </div>
+        </div>
+        
+        <!-- Halaman 3: Penutup -->
+        <div class="page" id="page3">
+            <div class="bubbles" id="bubbles3"></div>
+            
+            <div class="kuromi-gallery">
+                <!-- Ganti dengan gambar Kuromi -->
+                <img src="https://cdn-icons-png.flaticon.com/512/4152/4152906.png" alt="Kuromi 1">
+                <img src="https://cdn-icons-png.flaticon.com/512/4152/4152909.png" alt="Kuromi 2">
+                <img src="https://cdn-icons-png.flaticon.com/512/4152/4152903.png" alt="Kuromi 3">
+            </div>
+            
+            <div class="closing-box">
+                <h2>Terima Kasih Sudah Ada! 💝</h2>
+                <p>Semoga tahun baru ini bawa lebih banyak kebahagiaan, tawa, dan cerita seru buat kita!</p>
+                <p>Aku selalu bersyukur punya kamu yang bisa diajak cerita tentang apa aja!</p>
+                <p>Jangan pernah berubah ya, karena kamu itu udah lebih sempurna dari kata sempurna! 🌟</p>
+            </div>
+            
+            <a href="https://wa.me/6285643917983" class="wa-link" target="_blank">
+                <span class="wa-icon">💬</span>
+                <span>Chat Aku Diciniii!</span>
+            </a>
+            
+            <div style="color: #ff1493; margin-top: 15px; font-size: 1rem; text-align: center; max-width: 320px;">
+                <p>Klik dong tombol chatt ( •̀ - •́ ) </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Kontrol musik -->
+    <div class="music-control" id="musicControl">
+        <i class="fas fa-play"></i>
+    </div>
+    
+    <!-- Petunjuk -->
+    <div class="hint" id="hint">
+        <span class="hint-icon">👆</span>
+        <span>Klik atau geser untuk ganti halaman!</span>
+    </div>
+    
+    <!-- Audio untuk lagu -->
+    <audio id="bgMusic" loop>
+        <!-- Ganti dengan blue yung kai.mp3 -->
+        <source src="blue yung kai.mp3" type="audio/mp3">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <script>
+        // Inisialisasi variabel
+        let currentPage = 1;
+        const totalPages = 3;
+        let isMusicPlaying = false;
+        const music = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        const hint = document.getElementById('hint');
+        const pagesContainer = document.getElementById('pagesContainer');
+        const pageIndicator = document.getElementById('pageIndicator');
+        
+        // Buat gelembung yang lebih rame
+        function createBubbles(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            for (let i = 0; i < count; i++) {
+                const bubble = document.createElement('div');
+                
+                // Tentukan ukuran acak
+                const sizeType = Math.random();
+                if (sizeType < 0.33) {
+                    bubble.classList.add('bubble', 'small');
+                } else if (sizeType < 0.66) {
+                    bubble.classList.add('bubble', 'medium');
+                } else {
+                    bubble.classList.add('bubble', 'large');
+                }
+                
+                // Warna acak
+                const colors = [
+                    'rgba(255, 105, 180, 0.3)',
+                    'rgba(255, 20, 147, 0.4)',
+                    'rgba(255, 182, 193, 0.4)',
+                    'rgba(255, 64, 129, 0.3)',
+                    'rgba(255, 128, 171, 0.3)'
+                ];
+                bubble.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Posisi acak
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.top = `${Math.random() * 100}%`;
+                
+                // Animasi dengan delay acak
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                bubble.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                
+                container.appendChild(bubble);
+            }
+        }
+        
+        // Buat efek konfeti yang lebih rame
+        function createConfetti() {
+            const colors = ['#ff69b4', '#ff1493', '#ffb6c1', '#ff9ec0', '#ff6ba9', '#ff4081'];
+            
+            for (let i = 0; i < 40; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                // Warna acak
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Posisi acak di atas layar
+                confetti.style.left = `${Math.random() * 100}%`;
+                
+                // Ukuran acak
+                const size = Math.random() * 15 + 8;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                
+                // Animasi dengan durasi dan delay acak
+                const duration = Math.random() * 2 + 2;
+                const delay = Math.random() * 1;
+                confetti.style.animation = `confetti-fall ${duration}s linear ${delay}s forwards`;
+                
+                // Tambahkan ke body
+                document.body.appendChild(confetti);
+                
+                // Hapus setelah selesai
+                setTimeout(() => {
+                    if (confetti.parentNode) {
+                        confetti.remove();
+                    }
+                }, (duration + delay) * 1000);
+            }
+        }
+        
+        // Buat floating hearts
+        function createFloatingHearts() {
+            const hearts = ['💖', '💕', '💗', '💓', '💞', '❤️', '🧡', '💛', '💚', '💙', '💜'];
+            
+            for (let i = 0; i < 5; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                
+                // Posisi acak
+                heart.style.left = `${Math.random() * 100}%`;
+                
+                // Warna acak
+                const colors = ['#ff69b4', '#ff1493', '#ff4081', '#ff6b9d'];
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Animasi dengan durasi dan delay acak
+                const duration = Math.random() * 3 + 4;
+                const delay = Math.random() * 2;
+                heart.style.animation = `float-heart ${duration}s linear ${delay}s forwards`;
+                
+                // Tambahkan ke body
+                document.body.appendChild(heart);
+                
+                // Hapus setelah selesai
+                setTimeout(() => {
+                    if (heart.parentNode) {
+                        heart.remove();
+                    }
+                }, (duration + delay) * 1000);
+            }
+        }
+        
+        // Update indikator halaman
+        function updatePageIndicator() {
+            const dots = document.querySelectorAll('.indicator-dot');
+            dots.forEach(dot => {
+                const pageNum = parseInt(dot.getAttribute('data-page'));
+                if (pageNum === currentPage) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // Geser halaman
+        function switchPage(direction) {
+            const currentPageEl = document.getElementById(`page${currentPage}`);
+            
+            // Animasi keluar
+            if (direction === 'next') {
+                currentPageEl.style.transform = 'translateX(-100%)';
+            } else {
+                currentPageEl.style.transform = 'translateX(100%)';
+            }
+            
+            currentPageEl.style.opacity = '0';
+            currentPageEl.classList.remove('active');
+            
+            // Update halaman saat ini
+            if (direction === 'next') {
+                currentPage = currentPage === totalPages ? 1 : currentPage + 1;
+            } else {
+                currentPage = currentPage === 1 ? totalPages : currentPage - 1;
+            }
+            
+            // Animasi masuk
+            const nextPageEl = document.getElementById(`page${currentPage}`);
+            nextPageEl.style.transform = 'translateX(0)';
+            nextPageEl.style.opacity = '1';
+            nextPageEl.classList.add('active');
+            
+            // Update indikator
+            updatePageIndicator();
+            
+            // Buat efek konfeti dan hearts
+            createConfetti();
+            createFloatingHearts();
+            
+            // Sembunyikan petunjuk setelah interaksi pertama
+            if (hint && hint.style.opacity !== '0.3') {
+                hint.style.opacity = '0.5';
+            }
+        }
+        
+        // Event listener untuk klik
+        document.addEventListener('click', function(e) {
+            // Jangan pindah halaman jika mengklik link WhatsApp
+            if (e.target.closest('.wa-link')) {
+                return;
+            }
+            // Jangan pindah halaman jika mengklik kontrol musik
+            if (e.target.closest('.music-control')) {
+                return;
+            }
+            // Jangan pindah halaman jika mengklik indikator halaman
+            if (e.target.closest('.page-indicator')) {
+                return;
+            }
+            switchPage('next');
+        });
+        
+        // Event listener untuk geser (swipe)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Geser ke kiri -> next
+                switchPage('next');
+            }
+            
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // Geser ke kanan -> previous
+                switchPage('prev');
+            }
+        }
+        
+        // Kontrol musik
+        musicControl.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            if (isMusicPlaying) {
+                music.pause();
+                musicControl.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                music.play().catch(e => {
+                    console.log("Autoplay diblokir, perlu interaksi pengguna");
+                    alert("Klik tombol musik lagi untuk memutar lagu!");
+                });
+                musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+        
+        // Setup musik
+        function startMusicAfterInteraction() {
+            music.play().then(() => {
+                isMusicPlaying = true;
+                musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+                document.removeEventListener('click', startMusicAfterInteraction);
+                document.removeEventListener('touchstart', startMusicAfterInteraction);
+            }).catch(e => {
+                console.log("Menunggu interaksi pengguna untuk memutar musik");
+                musicControl.innerHTML = '<i class="fas fa-play"></i>';
+            });
+        }
+        
+        // Inisialisasi saat halaman dimuat
+        window.addEventListener('load', function() {
+            // Inisialisasi gelembung
+            createBubbles('bubbles1', 30);
+            createBubbles('bubbles2', 35);
+            createBubbles('bubbles3', 40);
+            
+            // Atur halaman pertama sebagai aktif
+            document.getElementById('page1').classList.add('active');
+            document.getElementById('page1').style.opacity = '1';
+            document.getElementById('page1').style.transform = 'translateX(0)';
+            
+            // Sembunyikan halaman lain
+            for (let i = 2; i <= totalPages; i++) {
+                document.getElementById(`page${i}`).style.opacity = '0';
+                document.getElementById(`page${i}`).style.transform = 'translateX(100%)';
+            }
+            
+            // Update indikator halaman
+            updatePageIndicator();
+            
+            // Tambahkan floating hearts secara berkala
+            setInterval(createFloatingHearts, 3000);
+            
+            // Tambahkan event listener untuk keyboard
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                    switchPage('next');
+                } else if (e.key === 'ArrowLeft') {
+                    switchPage('prev');
+                }
+            });
+            
+            // Setup musik - mulai setelah interaksi pertama
+            document.addEventListener('click', startMusicAfterInteraction);
+            document.addEventListener('touchstart', startMusicAfterInteraction);
+            
+            // Sembunyikan petunjuk setelah 8 detik
+            setTimeout(() => {
+                if (hint) {
+                    hint.style.opacity = '0.3';
+                }
+            }, 8000);
+            
+            // Animasi karakter bergantian
+            setInterval(() => {
+                const characters = document.querySelectorAll('.character');
+                characters.forEach(char => {
+                    char.style.animation = 'none';
+                    setTimeout(() => {
+                        char.style.animation = 'bounce 3s infinite alternate';
+                    }, 10);
+                });
+            }, 4000);
+        });
+        
+        // Mencegah scroll default pada touch devices
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
